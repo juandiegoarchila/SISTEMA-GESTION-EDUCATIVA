@@ -1,61 +1,131 @@
-// Función para enviar datos y realizar la animación
-async function sendDataAndAnimate(hideForm, showForm, form) {
-  // Realiza la animación o transición aquí (puedes agregar clases CSS dinámicamente)
-  hideForm.classList.add("hide");
-  showForm.classList.remove("hide");
-
-  // Simula un retraso (puedes ajustar el tiempo según tus necesidades)
-  await new Promise(resolve => setTimeout(resolve, 1000));
-
-  // Envía el formulario después de la animación
-  form.submit();
+// Función para manejar la animación entre formularios
+async function animateForms(hideForm, showForm) {
+    hideForm.classList.add("hide");
+    showForm.classList.remove("hide");
+    await new Promise(resolve => setTimeout(resolve, 1000));
 }
 
 document.addEventListener('DOMContentLoaded', function () {
-  const registerForm = document.getElementById("registerForm");
-  const formRegister = document.querySelector(".register");
-  const formLogin = document.querySelector(".login");
+    const formRegister = document.querySelector(".register");
+    const formLogin = document.querySelector(".login");
 
-  // Agrega este bloque de código para manejar el envío del formulario de registro
-  registerForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    const btnSignIn = document.getElementById("sign-in");
+    const btnSignUp = document.getElementById("sign-up");
 
-      try {
-          // Envía el formulario y maneja la respuesta del servidor
-          await sendDataAndAnimate(formRegister, formLogin, registerForm);
-      } catch (error) {
-          console.error('Error al enviar datos:', error);
-          // Maneja el error aquí (puedes mostrar un mensaje de error al usuario)
-      }
-  });
+    btnSignIn.addEventListener("click", function () {
+        animateForms(formLogin, formRegister);
+    });
 
-  // Agrega este evento al formulario de inicio de sesión
-  const loginForm = document.querySelector(".login form");
-  loginForm.addEventListener("submit", async (e) => {
-      e.preventDefault();
+    btnSignUp.addEventListener("click", function () {
+        animateForms(formRegister, formLogin);
+    });
 
-      try {
-          // Envía el formulario y maneja la respuesta del servidor
-          await sendDataAndAnimate(formLogin, formRegister, loginForm);
-      } catch (error) {
-          console.error('Error al enviar datos:', error);
-          // Maneja el error aquí (puedes mostrar un mensaje de error al usuario)
-      }
-  });
+    const nameInput = document.getElementById("name");
+    const nameError = document.getElementById("name-error");
 
-  // Agrega este bloque de código para la animación al hacer clic en los botones
-  const btnSignIn = document.getElementById("sign-in");
-  const btnSignUp = document.getElementById("sign-up");
+    nameInput.addEventListener("input", function () {
+        nameError.textContent = nameInput.value.length < 8 ? "*El nombre de usuario debe tener al menos 8 caracteres." : "";
+    });
 
-  btnSignIn.addEventListener("click", function () {
-      // Oculta el formulario de registro y muestra el formulario de inicio de sesión con una animación
-      formLogin.classList.add("hide");
-      formRegister.classList.remove("hide");
-  });
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("email-error");
 
-  btnSignUp.addEventListener("click", function () {
-      // Oculta el formulario de inicio de sesión y muestra el formulario de registro con una animación
-      formRegister.classList.add("hide");
-      formLogin.classList.remove("hide");
-  });
+    emailInput.addEventListener("input", function () {
+        emailError.textContent = checkEmailValidity(emailInput) ? "" : "*El correo no es válido.";
+    });
+
+    const password = document.getElementById("password");
+    const passwordError = document.getElementById("password-error");
+
+    password.addEventListener("input", function () {
+        passwordError.textContent = checkPasswordLength(password) ? "" : "*La contraseña debe tener al menos 8 caracteres y menos de 20 caracteres.";
+    });
+
+    function checkEmailValidity(input) {
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        return emailRegex.test(input.value);
+    }
+
+    function checkPasswordLength(input) {
+        const length = input.value.length;
+        return length >= 8 && length <= 20;
+    }
+
+    function showLengthError(input, min, max, fieldName) {
+        const formControl = input.parentElement;
+        formControl.classList.add("error");
+        const small = formControl.querySelector('small');
+        small.innerText = `*${fieldName} debe tener entre ${min} y ${max} caracteres.`;
+    }
+
+    function clearLengthError(input) {
+        const formControl = input.parentElement;
+        formControl.classList.remove("error");
+        const small = formControl.querySelector('small');
+        small.innerText = '';
+    }
+
+    function showSuccess(input) {
+        const formControl = input.parentElement;
+        formControl.classList.add("success");
+        const small = formControl.querySelector('small');
+        small.innerText = '';
+    }
+
+    function checkLength(input, min, max, fieldName) {
+        const inputValue = input.value.trim();
+        if (inputValue.length < min || inputValue.length > max) {
+            showLengthError(input, min, max, fieldName);
+            return false;
+        } else {
+            clearLengthError(input);
+            showSuccess(input);
+            return true;
+        }
+    }
+
+    const registerForm = document.getElementById("registerForm");
+    const loginForm = document.querySelector(".login form");
+
+    registerForm.querySelector('#email').addEventListener("input", function () {
+        emailError.textContent = checkEmailValidity(this) ? "" : "*El correo no es válido.";
+    });
+
+    registerForm.querySelector('#name').addEventListener("input", function () {
+        checkLength(this, 8, 20, 'Nombre de usuario');
+    });
+
+    registerForm.querySelector('#password').addEventListener("input", function () {
+        passwordError.textContent = checkPasswordLength(this) ? "" : "**La contraseña debe tener al menos 8 caracteres.        ";
+    });
+
+    function checkRequiredRegister() {
+        let isRequired = false;
+
+        ['name', 'email', 'password', 'cedula'].forEach(fieldName => {
+            const input = registerForm.querySelector(`#${fieldName}`);
+            if (input.value.trim() === '') {
+                showLengthError(input, 8, 20, fieldName);
+                isRequired = true;
+            } else {
+                clearLengthError(input);
+            }
+        });
+
+        return isRequired;
+    }
+
+    registerForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        if (!checkRequiredRegister()) {
+            await animateForms(formRegister, formLogin);
+            registerForm.submit();
+        }
+    });
+
+    loginForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        await animateForms(formLogin, formRegister);
+        loginForm.submit();
+    });
 });
