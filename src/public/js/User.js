@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const loginForm = document.querySelector(".login form");
 
     registerForm.querySelector('#email').addEventListener("input", function () {
-        emailError.textContent = checkEmailValidity(this) ? "" : "*El correo no es válido.";
+        emailError.textContent = checkEmailValidity(this) ? "" : "El correo no es válido.";
     });
 
     registerForm.querySelector('#name').addEventListener("input", function () {
@@ -96,7 +96,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     registerForm.querySelector('#password').addEventListener("input", function () {
-        passwordError.textContent = checkPasswordLength(this) ? "" : "**La contraseña debe tener al menos 8 caracteres.        ";
+        passwordError.textContent = checkPasswordLength(this) ? "" : "La contraseña debe tener al menos 8 caracteres.        ";
     });
 
     function checkRequiredRegister() {
@@ -129,3 +129,9 @@ document.addEventListener('DOMContentLoaded', function () {
         loginForm.submit();
     });
 });
+
+
+
+
+
+
