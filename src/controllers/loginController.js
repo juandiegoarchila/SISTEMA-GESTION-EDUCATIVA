@@ -68,7 +68,7 @@ export const postRegister = async (req, res) => {
     if (emailSnapshot.size > 0) {
       // El correo electrónico ya está registrado
       req.flash('error_msg', 'Este correo electrónico ya está registrado. Por favor, utiliza otro.');
-      res.redirect('/login');
+      res.redirect('/register');
       return;
     }
 
@@ -79,7 +79,7 @@ export const postRegister = async (req, res) => {
     if (cedulaSnapshot.size > 0) {
       // La cédula ya está registrada
       req.flash('error_msg', 'Esta cédula ya está registrada. Por favor, utiliza otra.');
-      res.redirect('/login');
+      res.redirect('/register');
       return;
     }
 
@@ -100,6 +100,8 @@ export const postRegister = async (req, res) => {
     res.redirect('/login');
   } catch (error) {
     console.error('Error al registrar el usuario:', error);
-    res.status(500).send('Error interno al registrar el usuario. Por favor, intenta nuevamente.');
+    req.flash('error_msg', 'Error interno al registrar el usuario. Por favor, intenta nuevamente.');
+    res.redirect('/login');
   }
 };
+
