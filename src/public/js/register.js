@@ -1,25 +1,10 @@
+// Espera a que el DOM esté completamente cargado
 document.addEventListener('DOMContentLoaded', function () {
 
-    // Mensajes para email, password y name
-    const emailErrorMessage = "El correo electrónico no es válido.";
+    // Mensajes de error predefinidos
+    const emailErrorMessage = "El correo no es válido.";
     const passwordErrorMessage = "La contraseña debe tener al menos 8 caracteres.";
-    const nameErrorMessage = "El nombre debe tener entre 8 y 20 caracteres.";
-
-    // Funciones de validación
-    function checkLength(input, minLength, maxLength, fieldName) {
-        const errorMessage = input.value.length < minLength || input.value.length > maxLength
-            ? `* ${fieldName} debe tener entre ${minLength} y ${maxLength} caracteres.` : "";
-        document.getElementById(`${input.id}-error`).textContent = errorMessage;
-    }
-
-    function checkPasswordLength(input) {
-        return input.value.length >= 8;
-    }
-
-    function checkEmailValidity(input) {
-        const emailRegex = /^\S+@\S+\.\S+$/;
-        return emailRegex.test(input.value);
-    }
+    const nameErrorMessage = "El nombre de usuario debe tener al menos 8 caracteres.";
 
     // Función para manejar la animación entre formularios y mostrar mensajes de error
     async function animateForms(hideForm, showForm, errorMessage = "") {
@@ -30,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
         showForm.classList.remove("hide");
 
         const errorMessageElement = document.querySelector('.flash-message');
-        errorMessageElement.innerHTML = errorMessage;
+        errorMessageElement.textContent = errorMessage;
         errorContainer.style.display = 'block';
 
         await new Promise(resolve => setTimeout(resolve, 1000));
@@ -49,46 +34,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnSignUp = document.getElementById('sign-in');
     const btnSignIn = document.getElementById('sign-up');
 
-    btnSignIn.addEventListener('click', function () {
-        animateForms(formLogin, formRegister, '* Mensaje de error para iniciar sesión');
-    });
+    // Event listeners para cambiar entre formularios
+    btnSignIn.addEventListener('click', () => animateForms(formLogin, formRegister, nameErrorMessage));
+    btnSignUp.addEventListener('click', () => animateForms(formRegister, formLogin, emailErrorMessage));
 
-    btnSignUp.addEventListener('click', function () {
-        animateForms(formRegister, formLogin, '* Mensaje de error para registrarse');
-    });
-
-    const registerForm = document.getElementById("registerForm");
-    const loginForm = document.querySelector(".login form");
-
-    const emailInput = registerForm.querySelector('#email');
-    const emailError = document.getElementById("email-error");
-
-    emailInput.addEventListener("input", function () {
-        const errorMessage = checkEmailValidity(this) ? "" : emailErrorMessage;
-        emailError.textContent = errorMessage;
-    });
-
-    const nameInput = registerForm.querySelector('#name');
+    // Event listener para validar campos antes de enviar el formulario
+    const nameInput = document.getElementById("name");
     const nameError = document.getElementById("name-error");
 
     nameInput.addEventListener("input", function () {
-        checkLength(this, 8, 20, 'Nombre de usuario');
-        // Puedes agregar mensajes de error específicos aquí si es necesario
+        nameError.textContent = nameInput.value.length < 8 ? "El nombre de usuario debe tener al menos 8 caracteres." : "";
     });
 
-    const passwordInput = registerForm.querySelector('#password');
+    const emailInput = document.getElementById("email");
+    const emailError = document.getElementById("email-error");
+
+    emailInput.addEventListener("input", function () {
+        emailError.textContent = checkEmailValidity(emailInput) ? "" : `${emailErrorMessage}`;
+    });
+
+    const password = document.getElementById("password");
     const passwordError = document.getElementById("password-error");
 
-    passwordInput.addEventListener("input", function () {
-        const errorMessage = checkPasswordLength(this) ? "" : passwordErrorMessage;
-        passwordError.textContent = errorMessage;
+    password.addEventListener("input", function () {
+        passwordError.textContent = checkPasswordLength(password) ? "" : `${passwordErrorMessage}`;
     });
 
-    // Resto del código para la validación de formularios...
 
-    // Resto del código para mostrar mensajes de error en tiempo real...
-
-    // Resto del código para la animación de mensajes de error...
+    const registerForm = document.getElementById("registerForm");
 
     registerForm.addEventListener("submit", async function (e) {
         e.preventDefault();
@@ -98,12 +71,20 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    loginForm.addEventListener("submit", async function (e) {
-        e.preventDefault();
-        await animateForms(formLogin, formRegister);
-        loginForm.submit();
-    });
 
+    // Función para verificar la validez del correo electrónico
+    function checkEmailValidity(input) {
+        const emailRegex = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+        return emailRegex.test(input.value);
+    }
+
+    // Función para verificar la longitud de la contraseña
+    function checkPasswordLength(input) {
+        const length = input.value.length;
+        return length >= 8 && length <= 20;
+    }
+
+    // Función para verificar campos requeridos en el formulario de registro
     function checkRequiredRegister() {
         let isRequired = false;
 
@@ -120,13 +101,15 @@ document.addEventListener('DOMContentLoaded', function () {
         return isRequired;
     }
 
-    function showLengthError(input, minLength, maxLength, fieldName) {
+    // Función para mostrar mensajes de error de longitud
+    function showLengthError(input, min, max, fieldName) {
         const errorMessage = `${fieldName === 'name' ? nameErrorMessage : ''} 
                              ${fieldName === 'email' ? emailErrorMessage : ''} 
                              ${fieldName === 'password' ? passwordErrorMessage : ''}`;
-        document.getElementById(`${input.id}-error`).textContent = errorMessage;
+        document.getElementById(`${input.id}-error`).textContent = errorMessage.trim(); 
     }
 
+    // Función para borrar mensajes de error de longitud
     function clearLengthError(input) {
         document.getElementById(`${input.id}-error`).textContent = "";
     }

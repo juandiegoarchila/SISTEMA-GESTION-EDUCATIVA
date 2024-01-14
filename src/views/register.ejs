@@ -1,168 +1,187 @@
+<!-- Estructura principal de la página -->
 <body>
-  <div class="flash-container">
-      <div class="flash-message">
-          <%- include('./partials/errors.ejs') %>
-      </div>
-  </div>
-  <%- include('./layouts/Signin.ejs') %>
+    <!-- Contenedor para mensajes flash -->
+    <div class="flash-container">
+        <!-- Mensajes flash incluidos desde errors.ejs -->
+        <div class="flash-message">
+            <%- include('./partials/errors.ejs') %>
+        </div>
+    </div>
 
-  <div class="container-form register">
+    <!-- Diseño de inicio de sesión -->
+    <%- include('./layouts/Signin.ejs') %>
 
-      <div class="information">
-          <div class="info-childs">
+    <!-- Contenedor del formulario de registro -->
+    <div class="container-form register">
+        <!-- Sección de información -->
+        <div class="information">
+            <!-- Contenido informativo para el registro -->
+            <div class="info-childs">
+                <!-- Título y mensaje de bienvenida -->
+                <h2>¡Bienvenido nuevamente!</h2>
+                <p>Para iniciar sesión, registra tus datos y sigue las instrucciones.</p>
+                <!-- Botón de inicio de sesión -->
+                <input type="button" value="Iniciar Sesión" id="sign-in">
+            </div>
+        </div>
 
-              <h2>Bienvenido</h2>
-              <p>Para unirte a nuestra comunidad por favor Inicia Sesión con tus datos</p>
-              <input type="button" value="Iniciar Sesión" id="sign-in">
-          </div>
-      </div>
-      <div class="form-information">
-          <div class="form-information-childs">
-              <h2>Crear una Cuenta</h2>
-              <div class="icons">
-                  <i class='bx bxl-google'></i>
-                  <i class='bx bxl-github'></i>
-                  <i class='bx bxl-linkedin'></i>
-              </div>
-              <p>o usa tu email para registrarte</p>
-              <form action="/register" method="post" class="form" id="registerForm" onsubmit="return validateRegisterForm()">
-                  <!-- Nombre Completo -->
-                  <div class="form-field">
-                      <small class="error-message" id="name-error"></small>
-                      <label>
-                          <i class='bx bx-user'></i>
-                          <input type="text" name="name" id="name" placeholder="Nombre Completo" required>
-                      </label>
-                  </div>
+        <!-- Sección del formulario de registro -->
+        <div class="form-information">
+            <div class="form-information-childs">
+                <!-- Título del formulario de registro -->
+                <h2>Crear una Cuenta</h2>
+                <!-- Iconos de inicio de sesión social -->
+                <div class="icons">
+                    <!-- <i class='bx bxl-google'></i>
+                    <i class='bx bxl-github'></i>
+                    <i class='bx bxl-linkedin'></i> -->
+                </div>
+                <!-- Mensaje de registro por correo electrónico -->
+                <!-- <p>o usa tu email para registrarte</p> -->
 
-                  <!-- Correo Electrónico -->
-                  <small class="error-message" id="email-error"></small>
-                  <div class="form-field">
-                      <label>
-                          <i class='bx bx-envelope'></i>
-                          <input type="email" name="email" id="email" placeholder="Correo Electrónico" required>
-                      </label>
-                  </div>
+                <!-- Formulario de registro -->
+                <form action="/register" method="post" class="form" id="registerForm" onsubmit="return validateRegisterForm()">
+                    <!-- Nombre Completo -->
+                    <div class="form-field">
+                        <small class="error-message" id="name-error"></small>
+                        <label>
+                            <i class='bx bx-user'></i>
+                            <input type="text" name="name" id="name" placeholder="Nombre Completo" required>
+                        </label>
+                    </div>
 
-                  <!-- Contraseña -->
-                  <div class="form-field">
-                      <small class="error-message" id="password-error"></small>
-                      <label>
-                          <i class='bx bx-lock-alt'></i>
-                          <input type="password" name="password" id="password" placeholder="Contraseña" required>
-                      </label>
-                  </div>
+                    <!-- Correo Electrónico -->
+                    <small class="error-message" id="email-error"></small>
+                    <div class="form-field">
+                        <label>
+                            <i class='bx bx-envelope'></i>
+                            <input type="email" name="email" id="email" placeholder="Correo Electrónico" required>
+                        </label>
+                    </div>
 
-                  <!-- Cédula -->
-                  <small class="error-message" id="cedula-error"></small>
-                  <div class="form-field">
-                      <label>
-                          <i class='bx bx-id-card'></i>
-                          <input type="text" name="cedula" id="cedula" placeholder="Cédula" required>
-                      </label>
-                  </div>
+                    <!-- Contraseña -->
+                    <div class="form-field">
+                        <small class="error-message" id="password-error"></small>
+                        <label>
+                            <i class='bx bx-lock-alt'></i>
+                            <input type="password" name="password" id="password" placeholder="Contraseña" required>
+                        </label>
+                    </div>
 
-                  <input type="submit" value="Registrarse">
-              </form>
-          </div>
-      </div>
-  </div>
-  <div class="container-form login hide">
+                    <!-- Cédula -->
+                    <small class="error-message" id="cedula-error"></small>
+                    <div class="form-field">
+                        <label>
+                            <i class='bx bx-id-card'></i>
+                            <input type="text" name="cedula" id="cedula" placeholder="Cédula" required>
+                        </label>
+                    </div>
 
-      <div class="information">
-          <div class="info-childs">
-              <h2>¡¡Bienvenido nuevamente!!</h2>
-              <p>Para unirte a nuestra comunidad por favor Inicia Sesión con tus datos</p>
-              <input type="button" value="Registrarse" id="sign-up">
-          </div>
-      </div>
-      <div class="form-information">
-          <div class="form-information-childs">
-              <h2>Iniciar Sesión</h2>
-              <div class="icons">
-                  <i class='bx bxl-google'></i>
-                  <i class='bx bxl-github'></i>
-                  <i class='bx bxl-linkedin'></i>
-              </div>
-              <p>o Iniciar Sesión con una cuenta</p>
-              <form action="/login" method="post" class="form">
-                  <!-- Correo Electrónico -->
-                  <div class="form-field">
-                      <label>
-                          <i class='bx bx-envelope'></i>
-                          <input type="email" name="email" placeholder="Correo Electrónico">
-                      </label>
-                      <small class="error-message" id="email-error-login"></small>
-                  </div>
+                    <!-- Botón de envío del formulario -->
+                    <input type="submit" value="Registrarse">
+                </form>
+            </div>
+        </div>
+    </div>
 
-                  <!-- Contraseña -->
-                  <div class="form-field">
-                      <label>
-                          <i class='bx bx-lock-alt'></i>
-                          <input type="password" name="password" placeholder="Contraseña">
-                      </label>
-                      <small class="error-message" id="password-error-login"></small>
-                  </div>
+    <!-- Contenedor del formulario de inicio de sesión -->
+    <div class="container-form login hide">
+        <div class="information">
+            <div class="info-childs">
+                <h2>Bienvenido</h2>
+            <p>Para unirte, regístrate primero y luego inicia sesión con tus datos.</p>
+                <input type="button" value="Registrarse" id="sign-up">
+            </div>
+        </div>
+        <div class="form-information">
+            <div class="form-information-childs">
+                <h2>Iniciar Sesión</h2>
+                <div class="icons">
+                    <!-- Imagen del usuario -->
+                    <img src="public/img/AMERICANO.png" alt="Imagen de Usuario">
+                    <!-- <i class='bx bxl-google'></i>
+                    <i class='bx bxl-github'></i>
+                    <i class='bx bxl-linkedin'></i> -->
+                </div>
+                <form action="/login" method="post" class="form">
+                    <!-- Correo Electrónico -->
+                    <div class="form-field">
+                        <label>
+                            <i class='bx bx-envelope'></i>
+                            <input type="email" name="email" placeholder="Correo Electrónico">
+                        </label>
+                        <small class="error-message" id="email-error-login"></small>
+                    </div>
 
-                  <input type="submit" value="Iniciar Sesión">
-              </form>
-          </div>
-      </div>
-  </div>
+                    <!-- Contraseña -->
+                    <div class="form-field">
+                        <label>
+                            <i class='bx bx-lock-alt'></i>
+                            <input type="password" name="password" placeholder="Contraseña">
+                        </label>
+                        <small class="error-message" id="password-error-login"></small>
+                    </div>
 
-  <style>
-      .flash-container {
-          position: fixed;
-          top: -33px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: fit-content;
-          padding: 10px;
-          border-radius: 5px;
-          display: none;
-          animation: slideDown 0.5s ease-in-out; /* Animación para desplazarse hacia abajo */
-      }
-  
-      /* Estilos para el mensaje de error */
-      .flash-message {
-          color: #721c24;
-          font-size: 16px;
-      }
-  
-      /* Animación */
-      @keyframes slideDown {
-          from {
-              transform: translate(-50%, -100%);
-          }
-          to {
-              transform: translate(-50%, 0);
-          }
-      }
-  </style>
-  
-  <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        var flashContainer = document.querySelector('.flash-container');
-        var flashMessage = document.querySelector('.flash-message');
-    
-        // Verifica si hay un mensaje de éxito o error antes de mostrar el contenedor
-        if (flashMessage.innerHTML.trim() !== '') {
-          flashContainer.style.display = 'block'; // Mostrar el contenedor
-    
-          // Verificar si estamos en la página de registro antes de aplicar la animación
-          if (window.location.pathname === '/register' && flashMessage.innerHTML.indexOf('error_msg') === -1) {
-            // Después de unos segundos, oculta el contenedor con la animación
-            setTimeout(function () {
-              flashContainer.style.animation = 'slideUp 0.5s ease-in-out';
-              setTimeout(function () {
-                flashContainer.style.display = 'none';
-              }, 500);
-            }, 5000); // 5000 milisegundos (5 segundos) como ejemplo, puedes ajustarlo
-          }
+                    <!-- Botón de envío del formulario -->
+                    <input type="submit" value="Iniciar Sesión">
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estilos CSS para mensajes flash -->
+    <style>
+        .flash-container {
+            position: fixed;
+            top: -33px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: fit-content;
+            padding: 10px;
+            border-radius: 5px;
+            display: none;
+            animation: slideDown 0.5s ease-in-out;
         }
-      });
+
+        .flash-message {
+            color: #721c24;
+            font-size: 16px;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translate(-50%, -100%);
+            }
+            to {
+                transform: translate(-50%, 0);
+            }
+        }
+    </style>
+
+    <!-- Script JavaScript para mostrar mensajes flash -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var flashContainer = document.querySelector('.flash-container');
+            var flashMessage = document.querySelector('.flash-message');
+
+            // Verifica si hay mensajes flash antes de mostrar el contenedor
+            if (flashMessage.innerHTML.trim() !== '') {
+                flashContainer.style.display = 'block'; // Muestra el contenedor
+
+                // Verifica la página y aplica la animación si es necesario
+                if (window.location.pathname === '/register' && flashMessage.innerHTML.indexOf('error_msg') === -1) {
+                    // Oculta el contenedor después de unos segundos con animación
+                    setTimeout(function () {
+                        flashContainer.style.animation = 'slideUp 0.5s ease-in-out';
+                        setTimeout(function () {
+                            flashContainer.style.display = 'none';
+                        }, 500);
+                    }, 5000); // Tiempo de espera ajustable
+                }
+            }
+        });
     </script>
 
-
+    <!-- Inclusión de diseño de registro -->
     <%- include('./layouts/register.ejs') %>
 </body>

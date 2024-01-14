@@ -10,7 +10,7 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
-    background-image: url(img/van-tay-media-TOBRTuE_uXA-unsplash.jpg);
+    background-image: url(img/Colegio-Americano-Bogota.jpeg);
     background-size: cover;
 }
 
@@ -22,6 +22,44 @@ body {
   max-width: 900px;
   transition: all 1s ease;
   margin: 10px;
+}
+.icons img {
+  max-width: 150px; /* Ajusta el tamaño según tus preferencias */
+  height: auto;
+  border-radius: 50%; /* Hace la imagen redonda */
+}
+
+/* Estilos adicionales para mejorar la apariencia en pantallas pequeñas */
+@media screen and (max-width: 580px) {
+  .container-form {
+    max-width: 100%;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .information,
+  .form-information {
+    width: 100%;
+    border-radius: 0;
+  }
+
+  .icons img,
+  .information img,
+  .form-information img {
+    max-width: 100px; /* Ajusta el tamaño según tus preferencias */
+    height: auto;
+    margin: -10px 0;
+    transition: max-width 0.5s ease; /* Animación de reducción gradual */
+  }
+
+  .info-childs,
+  .form-information-childs {
+    padding: 0 10px;
+  }
+
+  .form label {
+    padding: 0;
+  }
 }
 
 .information {

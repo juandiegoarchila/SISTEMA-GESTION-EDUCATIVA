@@ -1,17 +1,21 @@
-// /src/controllers/loginController.js
+// Importa los módulos necesarios de Express y Firebase
 import express from 'express';
 import { getFirestore, collection, addDoc, query, where, getDocs } from 'firebase/firestore';
 import { hash, compare } from 'bcrypt';
 import firebaseApp from '../config/Conexion.js';
 
+// Desestructura el objeto 'express' para obtener la función 'render'
 const { render } = express;
 
+// Controlador para mostrar la página de inicio de sesión
 export const getLogin = (req, res) => {
   res.render('login', { title: 'Página de inicio de sesión' });
 };
 
+// Controlador para procesar el inicio de sesión
 export const postLogin = async (req, res) => {
   try {
+    // Extrae el correo electrónico y la contraseña del cuerpo de la solicitud
     const { email, password } = req.body;
 
     // Acceder a Firestore usando la configuración de Firebase
@@ -36,26 +40,28 @@ export const postLogin = async (req, res) => {
     if (!isPasswordValid) {
       // Contraseña incorrecta
       req.flash('error_msg', 'Credenciales inválidas. Verifica tu email y contraseña.');
-      console.log('Mensaje de error establecido:', req.flash('error_msg'));
       res.redirect('/login');
       return;
     }
 
     // Si las credenciales son válidas, redirige al usuario a la vista 'cabecera'
-    res.render('layouts/cabecera', { title: 'Cabecera' });
+    res.redirect('/Crud/index');
   } catch (error) {
-    console.error('Error al iniciar sesión:', error);
+    // Manejar errores internos al iniciar sesión
     req.flash('error_msg', 'Error interno al iniciar sesión. Por favor, intenta nuevamente.');
     res.redirect('/login');
   }
 };
 
+// Controlador para mostrar la página de registro
 export const getRegister = (req, res) => {
   res.render('register', { title: 'Página de registro' });
 };
 
+// Controlador para procesar el registro de usuarios
 export const postRegister = async (req, res) => {
   try {
+    // Extrae el correo electrónico, contraseña, nombre y cédula del cuerpo de la solicitud
     const { email, password, name, cedula } = req.body;
 
     // Acceder a Firestore usando la configuración de Firebase
@@ -99,9 +105,9 @@ export const postRegister = async (req, res) => {
     // Redirigir a la página de inicio de sesión u otra página después del registro
     res.redirect('/login');
   } catch (error) {
+    // Manejar errores internos al registrar el usuario
     console.error('Error al registrar el usuario:', error);
     req.flash('error_msg', 'Error interno al registrar el usuario. Por favor, intenta nuevamente.');
     res.redirect('/login');
   }
 };
-

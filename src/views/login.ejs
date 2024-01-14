@@ -1,33 +1,54 @@
+<!-- Contenedor para mensajes flash -->
+<div class="flash-container">
+    <!-- Contenedor para mensajes de error incluidos desde errors.ejs -->
+    <div class="flash-message">
+        <%- include('./partials/errors.ejs') %>
+    </div>
+</div>
+
+<!-- Inclusión del diseño de inicio de sesión -->
 <%- include('./layouts/Signin.ejs') %>
 <br><br><br><br><br>
 
+<!-- Contenedor del formulario de inicio de sesión -->
 <div class="container-form login hide">
+    <!-- Sección de información -->
     <div class="information">
+        <!-- Contenido informativo para el inicio de sesión -->
         <div class="info-childs">
-            <h2>Bienvenido</h2>
-            <p>Para unirte a nuestra comunidad por favor Inicia Sesión con tus datos</p>
+            <!-- Título y mensaje de bienvenida -->
+            <h2>¡Bienvenido nuevamente!</h2>
+            <p>Para iniciar sesión, registra tus datos y sigue las instrucciones.</p>
+            <!-- Botón de inicio de sesión -->
             <input type="button" value="Iniciar Sesión" id="sign-in">
         </div>
     </div>
+
+    <!-- Sección del formulario de registro -->
     <div class="form-information">
         <div class="form-information-childs">
+            <!-- Título del formulario de registro -->
             <h2>Crear una Cuenta</h2>
-            <div class="icons">
-                <i class='bx bxl-google'></i>
+            <!-- Iconos de inicio de sesión social -->
+             <div class="icons">
+                
+                <!-- <i class='bx bxl-google'></i>
                 <i class='bx bxl-github'></i>
-                <i class='bx bxl-linkedin'></i>
-            </div>
-            <p>o usa tu email para registrarte</p>
+                <i class='bx bxl-linkedin'></i> -->
+            </div> 
+            <img src="/img/Colegio-Americano-Bogota.jpeg" alt="">
+            <!-- Mensaje de registro por correo electrónico -->
+            <!-- <p>o usa tu email para registrarte</p> -->
+
+            <!-- Formulario de registro -->
             <form action="/register" method="post" class="form" id="registerForm" onsubmit="return validateRegisterForm()">
                 <!-- Nombre Completo -->
                 <div class="form-field">
                     <small class="error-message" id="name-error"></small>
-
                     <label>
                         <i class='bx bx-user'></i>
                         <input type="text" name="name" id="name" placeholder="Nombre Completo" required>
                     </label>
-
                 </div>
 
                 <!-- Correo Electrónico -->
@@ -57,29 +78,43 @@
                     </label>
                 </div>
 
+                <!-- Botón de envío del formulario -->
                 <input type="submit" value="Registrarse">
             </form>
         </div>
     </div>
 </div>
 
+<!-- Contenedor del formulario de registro -->
 <div class="container-form register">
+    <!-- Sección de información -->
     <div class="information">
+        <!-- Contenido informativo para el registro -->
         <div class="info-childs">
-            <h2>¡¡Bienvenido nuevamente!!</h2>
-            <p>Para unirte a nuestra comunidad por favor Inicia Sesión con tus datos</p>
+            <!-- Título y mensaje de bienvenida -->
+            <h2>Bienvenido</h2>
+            <p>Para unirte, regístrate primero y luego inicia sesión con tus datos.</p>
+            <!-- Botón de registro -->
             <input type="button" value="Registrarse" id="sign-up">
         </div>
     </div>
+
+    <!-- Sección del formulario de inicio de sesión -->
     <div class="form-information">
         <div class="form-information-childs">
+            <!-- Título del formulario de inicio de sesión -->
             <h2>Iniciar Sesión</h2>
-            <div class="icons">
-                <i class='bx bxl-google'></i>
-                <i class='bx bxl-github'></i>
-                <i class='bx bxl-linkedin'></i>
-            </div>
-            <p>o Iniciar Sesión con una cuenta</p>
+            <!-- Iconos de inicio de sesión social -->
+           <!-- Contenedor de imágenes -->
+<div class="icons">
+    <!-- Imagen del usuario -->
+    <img src="public/img/AMERICANO.png" alt="Imagen de Usuario">
+</div>
+
+            <!-- Mensaje de inicio de sesión con cuenta -->
+            <!-- <p>o Iniciar Sesión con una cuenta</p> -->
+
+            <!-- Formulario de inicio de sesión -->
             <form action="/login" method="post" class="form">
                 <!-- Correo Electrónico -->
                 <div class="form-field">
@@ -99,25 +134,69 @@
                     <small class="error-message" id="password-error-login"></small>
                 </div>
 
+                <!-- Botón de envío del formulario -->
                 <input type="submit" value="Iniciar Sesión">
             </form>
         </div>
     </div>
+    
 </div>
+
+<!-- Estilos CSS para mensajes flash -->
 <style>
     /* Asegúrate de aplicar el estilo a todos los form-field o ajustar los selectores según tu estructura */
-    .form-field {
-        margin-bottom: 1px !important;
+    .flash-container {
+        position: fixed;
+        top: -33px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: fit-content;
+        padding: 10px;
+        border-radius: 5px;
+        display: none;
+        animation: slideDown 0.5s ease-in-out; /* Animación para desplazarse hacia abajo */
     }
 
-    .error-message {
-        margin-top: 50px !important; /* Puedes ajustar este valor según tu preferencia */
-        color: red;
-        font-size: 14px;
+    /* Estilos para el mensaje de error */
+    .flash-message {
+        color: #721c24;
+        font-size: 16px;
+    }
+
+    /* Animación */
+    @keyframes slideDown {
+        from {
+            transform: translate(-50%, -100%);
+        }
+        to {
+            transform: translate(-50%, 0);
+        }
     }
 </style>
 
+<!-- Script JavaScript para mostrar mensajes flash -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var flashContainer = document.querySelector('.flash-container');
+        var flashMessage = document.querySelector('.flash-message');
 
+        // Verifica si hay mensajes flash antes de mostrar el contenedor
+        if (flashMessage.innerHTML.trim() !== '') {
+            flashContainer.style.display = 'block'; // Muestra el contenedor
 
+            // Verifica la página y aplica la animación si es necesario
+            if (window.location.pathname === '/register' && flashMessage.innerHTML.indexOf('error_msg') === -1) {
+                // Después de unos segundos, oculta el contenedor con la animación
+                setTimeout(function () {
+                    flashContainer.style.animation = 'slideUp 0.5s ease-in-out';
+                    setTimeout(function () {
+                        flashContainer.style.display = 'none';
+                    }, 500);
+                }, 5000); // 5000 milisegundos (5 segundos) como ejemplo, puedes ajustarlo
+            }
+        }
+    });
+</script>
 
+<!-- Inclusión del diseño de fin de sesión -->
 <%- include('./layouts/FinSignin.ejs') %>
