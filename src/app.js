@@ -54,7 +54,7 @@ app.use('/', loginRoutes);
 app.use(crudRoutes);
 
 // Configura el puerto en el que el servidor Express escuchará
-const port = process.env.PORT || 4000;
+const port = process.env.PORT || 5000;
 
 // Inicia el servidor Express
 app.listen(port, () => {

@@ -10,7 +10,6 @@ router.post('/login', postLogin);
 router.get('/register', getRegister);
 router.post('/register', postRegister);
 
-// Elimina la siguiente línea
-// router.get('/login-register', getLoginRegister); // Agregamos una nueva ruta para mostrar el formulario combinado
+
 
 export default router;
